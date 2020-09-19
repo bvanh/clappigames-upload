@@ -16,15 +16,25 @@ module.exports = {
         path,
         {
           public_id: originName,
+          format: "jpg",
         },
         (err, result) => {
-          //   console.log(result);
           res.json(result);
           unlinkAsync(req.file.path);
         }
       );
     } catch (error) {
       console.log(error);
+    }
+  },
+  delete: (req, res) => {
+    try {
+      const { img_id } = req.body;
+      cloudinary.uploader(img_id, (error, result) => {
+        res.json(result || error);
+      });
+    } catch (err) {
+      res.json(err);
     }
   },
 };
